@@ -3,6 +3,7 @@ package random
 import (
 	"math/rand"
 	"reflect"
+	"slices"
 	"unsafe"
 )
 
@@ -139,11 +140,11 @@ const (
 )
 
 var (
-	numbers =  []byte{'0', '1', '2', '3', '4', '5', '6', '7','8', '9'}
-	letters =  []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}
-	capitalLetters =  []byte{'A', 'B', 'C', 'D', 'E', 'F','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}
-	signs =  []byte{'!','"','#','$','%','&','\'','(',')','*','+',',','-','.','/',':',';','<','=','>','?','@','[','\\',']','^','_','`','{','|','}','~'}
-	spacer =  []byte{' ','\t','\n','\r'}
+	numbers        = []byte{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+	letters        = []byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
+	capitalLetters = []byte{'A', 'B', 'C', 'D', 'E', 'F', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'}
+	signs          = []byte{'!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'}
+	spacer         = []byte{' ', '\t', '\n', '\r'}
 )
 
 func StringFiltered(flags byte, length int) string {
@@ -159,10 +160,10 @@ func StringFiltered(flags byte, length int) string {
 		nextByte := Uint8()
 
 		for {
-			if (flags & StringFilteredNumbers != 0 && slices.Contains(numbers, nextByte)) ||
-			|| (flags & StringFilteredLetters != 0 && slices.Contains(letters, nextByte) && slices.Contains(capitalLetters, nextByte))
-			|| (flags & StringFilteredSigns != 0 && slices.Contains(signs, nextByte))
-			|| (flags & StringFilteredSpacers != 0 && slices.Contains(spacer, nextByte)) {
+			if (flags&StringFilteredNumbers != 0 && slices.Contains(numbers, nextByte)) ||
+				(flags&StringFilteredLetters != 0 && slices.Contains(letters, nextByte) && slices.Contains(capitalLetters, nextByte)) ||
+				(flags&StringFilteredSigns != 0 && slices.Contains(signs, nextByte)) ||
+				(flags&StringFilteredSpacers != 0 && slices.Contains(spacer, nextByte)) {
 				break
 			} else {
 				nextByte = Uint8()
