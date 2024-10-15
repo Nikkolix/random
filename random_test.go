@@ -1,4 +1,4 @@
-package github.com/Nikkolix/random
+package random
 
 import (
 	"fmt"
