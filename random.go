@@ -1,6 +1,7 @@
 package random
 
 import (
+	"log"
 	"math/rand"
 	"reflect"
 	"slices"
@@ -161,7 +162,7 @@ func StringFiltered(flags byte, length int) string {
 
 		for {
 			if (flags&StringFilteredNumbers != 0 && slices.Contains(numbers, nextByte)) ||
-				(flags&StringFilteredLetters != 0 && slices.Contains(letters, nextByte) && slices.Contains(capitalLetters, nextByte)) ||
+				(flags&StringFilteredLetters != 0 && (slices.Contains(letters, nextByte) || slices.Contains(capitalLetters, nextByte))) ||
 				(flags&StringFilteredSigns != 0 && slices.Contains(signs, nextByte)) ||
 				(flags&StringFilteredSpacers != 0 && slices.Contains(spacer, nextByte)) {
 				break
@@ -361,6 +362,9 @@ func Type(maxDepth int) reflect.Type {
 		return maxDepthType
 	}
 	typ := Kind()
+
+	log.Println(typ)
+
 	switch typ {
 	case reflect.Invalid:
 		return Type(maxDepth) //todo
@@ -482,7 +486,7 @@ func Type(maxDepth int) reflect.Type {
 
 			fields[i].Tag = reflect.StructTag(String(IntBetween(minStringLen, maxStringLen)))
 			fields[i].Offset = offset
-			fields[i].Index = []int{i}
+			fields[i].Index = []int{}
 			offset += fields[i].Type.Size()
 		}
 		return reflect.StructOf(fields)
